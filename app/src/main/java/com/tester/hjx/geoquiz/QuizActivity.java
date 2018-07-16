@@ -13,6 +13,7 @@ import static android.view.Gravity.*;
 public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
+    private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
     private ImageButton mNextButton;
@@ -31,6 +32,9 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
+        if(savedInstanceState != null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
 
         mQuestionTextView =(TextView)findViewById(R.id.question_text_view);
         updateQuestion();
@@ -91,6 +95,14 @@ public class QuizActivity extends AppCompatActivity {
             messageResId = R.string.incorrect_toast;
         }
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG,"onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
+
     }
 
     @Override
