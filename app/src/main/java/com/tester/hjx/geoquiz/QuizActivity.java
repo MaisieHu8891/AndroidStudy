@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import static android.view.Gravity.*;
 
 
 public class QuizActivity extends AppCompatActivity {
