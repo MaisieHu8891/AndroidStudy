@@ -20,6 +20,7 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private TextView mQuestionTextView;
+    private static final int REQUEST_CODE_CHEAT = 0;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia,true),
@@ -74,6 +75,7 @@ public class QuizActivity extends AppCompatActivity {
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this,answerIsTrue);
                 startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE_CHEAT);
             }
         });
 
