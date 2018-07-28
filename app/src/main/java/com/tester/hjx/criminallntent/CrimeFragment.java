@@ -25,7 +25,7 @@ public class CrimeFragment extends Fragment {
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CRIME_ID,crimeId);
+        args.putSerializable(ARG_CRIME_ID,crimeId);//
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
