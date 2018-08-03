@@ -2,6 +2,7 @@ package com.tester.hjx.criminallntent;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
@@ -76,6 +77,22 @@ public class CrimeLab {
         ContentValues values = getContentValues(crime);
         mDatabase.update(CrimeTable.NAME, values, CrimeTable.Cols.UUID+"=?",new String[]{uuidString});
     }
+
+    private Cursor queryCrimes(String whereClause, String[] whereArgs){
+        Cursor cursor = mDatabase.query(
+                CrimeTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return cursor;
+    }
+
+
+
 
 
 }
