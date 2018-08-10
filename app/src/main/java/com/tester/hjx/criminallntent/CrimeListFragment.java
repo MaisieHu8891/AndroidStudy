@@ -94,8 +94,10 @@ public class CrimeListFragment extends Fragment {
             case R.id.new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
-                startActivity(intent);
+//                Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
+//                startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
@@ -163,9 +165,10 @@ public class CrimeListFragment extends Fragment {
 //            Toast.makeText(getActivity(),mCrime.getTitle()+" clicked!", Toast.LENGTH_SHORT).show();
 //            Intent intent = new Intent(getActivity(),CrimeActivity.class);
 //            Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getId());
-            Intent intent = CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
+//            Intent intent = CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
 //            startActivityForResult(intent,REQUEST_CRIME);
-            startActivity(intent);
+//            startActivity(intent);
+            mCallbacks.onCrimeSelected(mCrime);
         }
 
         public void bind(Crime crime){
@@ -178,7 +181,7 @@ public class CrimeListFragment extends Fragment {
 
 
 
-    private void updateUI(){
+    public void updateUI(){
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getmCrimes();
 

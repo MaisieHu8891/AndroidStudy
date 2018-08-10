@@ -1,6 +1,7 @@
 package com.tester.hjx.criminallntent;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -44,11 +45,17 @@ public class CrimeFragment extends Fragment {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private File mPhotoFile;
+//    private CrimeListFragment.Callbacks mCallbacks;
+    private Callbacks mCallbacks;
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
+
+    public interface Callbacks{
+        void onCrimeUpdated(Crime crime);
+    }
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
@@ -56,6 +63,12 @@ public class CrimeFragment extends Fragment {
         CrimeFragment fragment = new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
     }
 
     @Override
@@ -73,6 +86,12 @@ public class CrimeFragment extends Fragment {
     public void onPause(){
         super.onPause();
         CrimeLab.get(getActivity()).updateCrime(mCrime);
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks = null;
     }
 
 
@@ -122,6 +141,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 mCrime.setSolved(isChecked);
+                updateCrime();
             }
         });
 
@@ -136,6 +156,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mCrime.setTitle(s.toString());
+                updateCrime();
             }
 
             @Override
@@ -178,6 +199,12 @@ public class CrimeFragment extends Fragment {
         mPhotoView = (ImageView)v.findViewById(R.id.crime_photo);
 
         return v;
+    }
+
+
+    private void updateCrime(){
+        CrimeLab.get(getActivity()).updateCrime(mCrime);
+        mCallbacks.onCrimeUpdated(mCrime);
     }
 
     private void updateDate() {
@@ -244,4 +271,6 @@ public class CrimeFragment extends Fragment {
             updatePhotoView();
         }
     }
+
+
 }
