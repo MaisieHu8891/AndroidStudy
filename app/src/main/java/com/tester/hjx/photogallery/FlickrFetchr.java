@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 //https://api.m.panda.tv/ajax_card_newlist?cate=index&__plat=android&__version=4.0.17.7419&__channel=shoujizhushou
@@ -47,6 +48,7 @@ public class FlickrFetchr {
     }
 
     public void fetchItems(){
+        List<GalleryItem> items = new ArrayList<>();
         try {
             String url = Uri.parse("https://api.m.panda.tv/ajax_card_newlist?")
                     .buildUpon()
@@ -56,6 +58,7 @@ public class FlickrFetchr {
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: "+jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
+            parseItems(items,jsonBody);
         }catch (IOException ioe){
             Log.e(TAG, "Failed to fetch items", ioe);
         }catch (JSONException je){
@@ -66,13 +69,20 @@ public class FlickrFetchr {
     private void parseItems(List<GalleryItem> items, JSONObject jsonBody) throws IOException, JSONException{
 //        JSONObject photosJsonObject = jsonBody.getJSONObject("photos");
         JSONArray photoJsonArray = jsonBody.getJSONArray("data");
-//        JSONObject photosJsonObject = photoJsonArray.getJSONObject(1);
-        for (int i=0; i<photoJsonArray.length();i++){
-            JSONObject photoJsonObject = photoJsonArray.getJSONObject(i);
+        JSONObject photosJsonObject = photoJsonArray.getJSONObject(1);
+        JSONArray pjA = photosJsonObject.getJSONArray("items");
+        for (int i=0; i<pjA.length();i++){
+            JSONObject photoJsonObject = pjA.getJSONObject(i);
             GalleryItem item = new GalleryItem();
             item.setId(photoJsonObject.getString("id"));
-
+            item.setCaption(photoJsonObject.getString("name"));
+            if(!photoJsonObject.has("img")) {
+                continue;
+                //for 循环中遇到break则跳出for语句，执行for循环后面的语句。 遇到continue则结束此次循环，不执行for 循环中continue后面的语句，判断循环条件，执行下次循环
+            }
+            item.setUrl(photoJsonObject.getString("img"));
+                items.add(item);
         }
-
     }
 }
+
