@@ -1,16 +1,34 @@
 package com.tester.hjx.photogallery;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-//https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fr=&sf=1&fmq=1526269427171_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&word=%E5%A3%81%E7%BA%B8
 
 public class PhotoGalleryFragment extends Fragment {
+    private static final String TAG = "PhotoGalleryFragment";
+
     private RecyclerView mPhotoRecyclerView;
+
+    private class FetchItemsTask extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+//            try {
+////                https://api.m.panda.tv/ajax_card_newlist?cate=index&__plat=android&__version=4.0.17.7419&__channel=shoujizhushou
+//                String result = new FlickrFetchr().getUrlString("https://www.bignerdranch.com");
+//                Log.i(TAG, "Fetch contents of URL: "+result);
+//            }catch (IOException ioe){
+//                Log.e(TAG,"Failed to fetch URL: ",ioe);
+//            }
+            new FlickrFetchr().fetchItems();
+            return null;
+        }
+    }
     public static PhotoGalleryFragment newInstance(){
         return new PhotoGalleryFragment();
     }
@@ -18,6 +36,7 @@ public class PhotoGalleryFragment extends Fragment {
     public void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setRetainInstance(true);
+        new FetchItemsTask().execute();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
