@@ -47,7 +47,7 @@ public class FlickrFetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public void fetchItems(){
+    public List<GalleryItem> fetchItems(){
         List<GalleryItem> items = new ArrayList<>();
         try {
             String url = Uri.parse("https://api.m.panda.tv/ajax_card_newlist?")
@@ -64,12 +64,13 @@ public class FlickrFetchr {
         }catch (JSONException je){
             Log.e(TAG,"Fail to parse JSON",je);
         }
+        return items;
     }
 
     private void parseItems(List<GalleryItem> items, JSONObject jsonBody) throws IOException, JSONException{
 //        JSONObject photosJsonObject = jsonBody.getJSONObject("photos");
         JSONArray photoJsonArray = jsonBody.getJSONArray("data");
-        JSONObject photosJsonObject = photoJsonArray.getJSONObject(1);
+        JSONObject photosJsonObject = photoJsonArray.getJSONObject(0);
         JSONArray pjA = photosJsonObject.getJSONArray("items");
         for (int i=0; i<pjA.length();i++){
             JSONObject photoJsonObject = pjA.getJSONObject(i);
@@ -81,7 +82,7 @@ public class FlickrFetchr {
                 //for 循环中遇到break则跳出for语句，执行for循环后面的语句。 遇到continue则结束此次循环，不执行for 循环中continue后面的语句，判断循环条件，执行下次循环
             }
             item.setUrl(photoJsonObject.getString("img"));
-                items.add(item);
+            items.add(item);
         }
     }
 }
