@@ -22,9 +22,9 @@ public class PhotoGalleryFragment extends Fragment {
 
     private List<GalleryItem> mItems = new ArrayList<>();
 
-    private class FetchItemsTask extends AsyncTask<Void,Void,Void>{
+    private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>>{
         @Override
-        protected Void doInBackground(Void... params) {
+        protected List<GalleryItem> doInBackground(Void... params) {
 //            try {
 ////                https://api.m.panda.tv/ajax_card_newlist?cate=index&__plat=android&__version=4.0.17.7419&__channel=shoujizhushou
 //                String result = new FlickrFetchr().getUrlString("https://www.bignerdranch.com");
@@ -32,8 +32,14 @@ public class PhotoGalleryFragment extends Fragment {
 //            }catch (IOException ioe){
 //                Log.e(TAG,"Failed to fetch URL: ",ioe);
 //            }
-            new FlickrFetchr().fetchItems();
-            return null;
+            return new FlickrFetchr().fetchItems();
+//            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<GalleryItem> items){
+            mItems = items;
+            setupAdapter();
         }
     }
     public static PhotoGalleryFragment newInstance(){
