@@ -31,7 +31,6 @@ public class ThumbnailDownloader<T> extends HandlerThread {
     public ThumbnailDownloader(Handler responseHandler){
         super(TAG);
         mResponseHandler = responseHandler;
-        System.out.print("1");
     }
 
     public ThumbnailDownloader() {
