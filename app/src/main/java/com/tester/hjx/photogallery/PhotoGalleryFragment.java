@@ -33,15 +33,13 @@ public class PhotoGalleryFragment extends Fragment {
     private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>>{
         @Override
         protected List<GalleryItem> doInBackground(Void... params) {
-//            try {
-////                https://api.m.panda.tv/ajax_card_newlist?cate=index&__plat=android&__version=4.0.17.7419&__channel=shoujizhushou
-//                String result = new FlickrFetchr().getUrlString("https://www.bignerdranch.com");
-//                Log.i(TAG, "Fetch contents of URL: "+result);
-//            }catch (IOException ioe){
-//                Log.e(TAG,"Failed to fetch URL: ",ioe);
-//            }
-            return new FlickrFetchr().fetchItems();
-//            return null;
+            String query = "robot";
+            if(query == null){
+                return new FlickrFetchr().fetchIndexPhotos();
+            }else {
+                return new FlickrFetchr().searchPhotos();
+            }
+
         }
 
         @Override
