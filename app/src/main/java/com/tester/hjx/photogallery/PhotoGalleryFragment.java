@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -218,7 +218,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
         @Override
         public void onBindViewHolder(PhotoHolder photoHolder, int position) {
             GalleryItem galleryItem = mGalleryItems.get(position);
-//            photoHolder.bindGalleryItem(galleryItem);
+            photoHolder.bindGalleryItem(galleryItem);
             Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
             photoHolder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(photoHolder,galleryItem.getUrl());

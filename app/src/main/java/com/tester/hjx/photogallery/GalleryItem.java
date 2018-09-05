@@ -37,6 +37,7 @@ public class GalleryItem {
     }
 //https://medusa.m.panda.tv/shop.html
     public Uri getPhotoPageUri(){
-        return Uri.parse("https://medusa.m.panda.tv/shop.html").buildUpon().build();
+        return Uri.parse("https://medusa.m.panda.tv/free_watch.html").buildUpon()
+                .build();
     }
 }

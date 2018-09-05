@@ -19,7 +19,7 @@ import java.util.List;
 
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
-    private  static final String INDEX = "ajax_card_newlist?cate=index";
+    private  static final String INDEX = "ajax_slider_cate?cate=index";
     private static final String SEARCH = "ajax_search_all?keyword=7000";
 
     public byte[] getUrlBytes(String urlSpec) throws IOException{
@@ -89,14 +89,13 @@ public class FlickrFetchr {
     }
 
     private void parseIndexItems(List<GalleryItem> items, JSONObject jsonBody) throws IOException, JSONException{
-        JSONArray photoJsonArray = jsonBody.getJSONArray("data");
-        JSONObject photosJsonObject = photoJsonArray.getJSONObject(0);
-        JSONArray pjA = photosJsonObject.getJSONArray("items");
+        JSONObject photosJsonObject = jsonBody.getJSONObject("data");
+        JSONArray pjA = photosJsonObject.getJSONArray("banners");
         for (int i=0; i<pjA.length();i++){
             JSONObject photoJsonObject = pjA.getJSONObject(i);
             GalleryItem item = new GalleryItem();
-            item.setId(photoJsonObject.getString("id"));
-            item.setCaption(photoJsonObject.getString("name"));
+            item.setId(photoJsonObject.getString("roomid"));
+            item.setCaption(photoJsonObject.getString("title"));
             if(!photoJsonObject.has("img")) {
                 continue;
                 //for 循环中遇到break则跳出for语句，执行for循环后面的语句。 遇到continue则结束此次循环，不执行for 循环中continue后面的语句，判断循环条件，执行下次循环
