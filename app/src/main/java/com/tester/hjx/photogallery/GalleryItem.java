@@ -1,5 +1,7 @@
 package com.tester.hjx.photogallery;
 
+import android.net.Uri;
+
 public class GalleryItem {
     private String mCaption;
     private String mId;
@@ -32,5 +34,9 @@ public class GalleryItem {
 
     public void setUrl(String url) {
         mUrl = url;
+    }
+//https://medusa.m.panda.tv/shop.html
+    public Uri getPhotoPageUri(){
+        return Uri.parse("https://medusa.m.panda.tv/shop.html").buildUpon().build();
     }
 }
